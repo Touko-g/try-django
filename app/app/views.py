@@ -5,7 +5,7 @@ from django.template.loader import render_to_string, get_template
 from articles.models import Article
 
 
-def home(request, *args, **kwargs):
+def home_view(request, *args, **kwargs):
     random_id = random.randint(1, 2)
 
     article_obj = Article.objects.get(id=random_id)
