@@ -1,32 +1,31 @@
+"""
+To render html web pages
+"""
 import random
-
 from django.http import HttpResponse
-from django.template.loader import render_to_string, get_template
+from django.template.loader import render_to_string
 from articles.models import Article
 
 
 def home_view(request, *args, **kwargs):
-    random_id = random.randint(1, 2)
+    """
+    Take in a request (Django sends request)
+    Return HTML as a response (We pick to return the response)
+    """
+    name = "Justin"  # hard coded
+    random_id = random.randint(1, 4)  # pseudo random
 
-    article_obj = Article.objects.get(id=random_id)
-
-    article_list = Article.objects.all()
-
+    # from the database??
+    article_obj = Article.objects.all().first()
+    article_queryset = Article.objects.all()
     context = {
-        "article_list": article_list,
-        "title": article_obj.title,
-        "content": article_obj.content,
-        "id": article_obj.id
-
+        "object_list": article_queryset,
+        "object": article_obj,
     }
-
-    # tmpl = get_template('home-view.html').render(context=context)
-
-    html_string = render_to_string('home-view.html', context=context)
-
-    # html_string = """
-    #     <h1>{title}(id:{id})</h1>
-    #     <p>{content}</p>
+    # Django Templates
+    HTML_STRING = render_to_string("home-view.html", context=context)
+    # HTML_STRING = """
+    # <h1>{title} (id: {id})!</h1>
+    # <p>{content}!</p>
     # """.format(**context)
-
-    return HttpResponse(html_string)
+    return HttpResponse(HTML_STRING)
