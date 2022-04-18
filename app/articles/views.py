@@ -9,18 +9,8 @@ from django.db.models import Q
 # Create your views here.
 
 def article_search_view(request):
-    # print(dir(request))
-    # print(request.GET)
-    query_dict = request.GET  # this is a dictionary
-    # query = query_dict.get("q") # <input type='text' name='q' />
-    try:
-        query = query_dict.get("q")
-    except:
-        query = None
-    qs = Article.objects.all()
-    if query is not None:
-        lookups = Q(title__icontains=query) | Q(content__icontains=query)
-        qs = Article.objects.filter(lookups)
+    query = request.GET.get('q')
+    qs = Article.objects.search(query=query)
     context = {
         "object_list": qs
     }
