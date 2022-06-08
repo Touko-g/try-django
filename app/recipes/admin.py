@@ -2,28 +2,17 @@ from django.contrib.auth import get_user_model
 from django.contrib import admin
 
 # Register your models here.
-from .models import RecipeIngredient, Recipe
+from .models import RecipeIngredient, Recipe, RecipeIngredientImage
 
 User = get_user_model()
-# admin.site.unregister(User)
 
-
-# class RecipeInline(admin.StackedInline):
-#     model = Recipe
-#     extra = 0
-#
-#
-# class UserAdmin(admin.ModelAdmin):
-#     inlines = [RecipeInline]
-#     list_display = ['username']
-
-
-# admin.site.register(User, UserAdmin)
+admin.site.register(RecipeIngredientImage)
 
 
 class RecipeIngredientInline(admin.StackedInline):
     model = RecipeIngredient
     extra = 0
+    readonly_fields = ['quantity_as_float', 'as_mks', 'as_imperial']
     # fields = ['name', 'quanity', 'unit', 'directions']
 
 
